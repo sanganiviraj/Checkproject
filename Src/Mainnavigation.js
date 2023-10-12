@@ -7,6 +7,7 @@ import Addtailer from './Addtailor'
 import Addtailor from './Addtailor'
 import { Provider } from 'react-redux';
 import Tailorstore from './Store';
+import Invoice from './Invoice';
 // import Tailerstore from './Store';
 
 const stack = createStackNavigator();
@@ -16,8 +17,9 @@ const Mainnavigation = () => {
     <Provider store={Tailorstore}>
     <NavigationContainer >
         <stack.Navigator>
-            <stack.Screen component={Mainhome}  name='home' options={{headerTitleAlign:'center'}}/>
+            <stack.Screen component={Mainhome}  name='home' options={{headerTitleAlign:'center',headerStyle:{backgroundColor:"#8fb996"}}}/>
             <stack.Screen component={Addtailor}  name='addtailor' options={{headerTitleAlign:'center',headerTitle:"Tailor"}}/>
+            <stack.Screen component={Invoice}  name='invoice' options={{headerTitleAlign:'center',headerTitle:"Invoice"}}/>
         </stack.Navigator>
     </NavigationContainer>
     </Provider>

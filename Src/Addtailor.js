@@ -1,13 +1,13 @@
 import { Pressable, StyleSheet, Text, View, TouchableOpacity , TextInput} from 'react-native'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { windowwidth } from './Constant'
 import Icon from 'react-native-vector-icons/Entypo'
 import Icon2 from 'react-native-vector-icons/AntDesign'
 import Iconicons from 'react-native-vector-icons/Ionicons'
 import { useDispatch } from 'react-redux'
-import { Add_Tailerdata } from './actions'
+import { Add_Tailerdata, update_Tailordata } from './actions'
 
-const Addtailor = () => {
+const Addtailor = ({route}) => {
   const [firstname,setfirstname] = useState('');
   const [secondname,setsecondname] = useState('');
   const [age,setage] = useState('');
@@ -17,18 +17,39 @@ const Addtailor = () => {
   const [kurta, setKurta] = useState();
   const [suit, setSuit] = useState();
 
-  // const dispatch = useDispatch();
+  const tdata = route.params?.tailor || {};
+
   const dispatch = useDispatch();
+
+  useEffect(() =>{
+    if(tdata.fullname){
+        const [firstpart , ...lastPartArray] = tdata.fullname.split(' ');
+        const lastPart = lastPartArray.join(' ');
+        setfirstname(firstpart);
+        setsecondname(lastPart);
+    }
+    if(tdata.age) setage(tdata.age);
+    if(tdata.mobilenumber) setmobilenumber(tdata.mobilenumber);
+
+    if(tdata.clothetype){
+      setShirt(tdata.clothetype.includes('shirt'));
+      setKurta(tdata.clothetype.includes('kurta'));
+      setPant(tdata.clothetype.includes('pant'));
+      setSuit(tdata.clothetype.includes('suit'));
+    }
+  },[])
 
   const Checkbox = (props) => {
     const iconname = props.ischecked ? "checkmark-circle" :  "checkmark-circle-outline";
     return(
-        <View style={{flexDirection:'row',alignItems:"center",marginHorizontal:10,marginTop:10,width:80}}>
-              <Pressable onPress= {props.onpress}>
+        <View >
+              <Pressable onPress= {props.onpress} style={{flexDirection:'row',alignItems:"center",marginHorizontal:10,marginTop:10,width:80}}>
                   <Iconicons name={iconname} color="black" size={24}/>
+
+                  <Text style={{fontSize:20,color:"black",fontFamily:'Roboto-Medium'}}> {props.title} </Text>
               </Pressable>
 
-              <Text style={{fontSize:20,color:"black",fontFamily:'Roboto-Medium'}}> {props.title} </Text>
+              
         </View>
     )
   }
@@ -49,7 +70,15 @@ const Addtailor = () => {
       clothetype.push('suit')
     }
 
-    dispatch(Add_Tailerdata(firstname,secondname,age,mobilenumber,clothetype));
+    let fullname = firstname + " " + secondname;
+    console.log('fulname : ' , fullname);
+
+    if(tdata.tid === undefined){
+      dispatch(Add_Tailerdata(fullname,age,mobilenumber,clothetype));
+    }else{
+      console.log('updatetailordata');
+      dispatch(update_Tailordata(tdata.tid,fullname,age,mobilenumber,clothetype));
+    }
 
 
   }
@@ -67,12 +96,13 @@ const Addtailor = () => {
             <Icon name="user" size={25} color='black' />
 
             <TextInput  
-            placeholder='Enter First name'
-            placeholderTextColor="#52796F"
-            style={styles.inputstyle}
-            maxLength={30}
-            onChangeText={(text) => setfirstname(text)}
-            value={firstname}
+              placeholder='Enter First name'
+              placeholderTextColor="#52796F"
+              style={styles.inputstyle}
+              maxLength={30}
+              onChangeText={(text) => setfirstname(text)}
+              value={firstname}
+              cursorColor="black"
             />
         </View>
 
@@ -81,12 +111,13 @@ const Addtailor = () => {
             <Icon2 name="doubleright" size={25} color='black' />
 
             <TextInput  
-            placeholder='Enter Last name'
-            placeholderTextColor="#52796F"
-            style={styles.inputstyle}
-            maxLength={30}
-            onChangeText={(text) => setsecondname(text)}
-            value={secondname}
+              placeholder='Enter Last name'
+              placeholderTextColor="#52796F"
+              style={styles.inputstyle}
+              maxLength={30}
+              onChangeText={(text) => setsecondname(text)}
+              value={secondname}
+              cursorColor="black"
             />
         </View>
 
@@ -95,12 +126,14 @@ const Addtailor = () => {
             <Icon name="man" size={25} color='black' />
 
             <TextInput  
-            placeholder='Enter Your Age'
-            placeholderTextColor="#52796F"
-            style={styles.inputstyle}
-            maxLength={30}
-            onChangeText={(text) => setage(text)}
-            value={age}
+              placeholder='Enter Your Age'
+              placeholderTextColor="#52796F"
+              style={styles.inputstyle}
+              maxLength={30}
+              onChangeText={(text) => setage(text)}
+              value={age}
+              cursorColor="black"
+              inputMode='numeric'
             />
         </View>
 
@@ -109,12 +142,14 @@ const Addtailor = () => {
             <Icon2 name="phone" size={25} color='black' />
 
             <TextInput  
-            placeholder='Enter Mobilenumber'
-            placeholderTextColor="#52796F"
-            style={styles.inputstyle}
-            maxLength={30}
-            onChangeText={(text) => setmobilenumber(text)}
-            value={mobilenumber}
+              placeholder='Enter Mobilenumber'
+              placeholderTextColor="#52796F"
+              style={styles.inputstyle}
+              maxLength={30}
+              onChangeText={(text) => setmobilenumber(text)}
+              value={mobilenumber}
+              cursorColor="black"
+              inputMode='numeric'
             />
         </View>
 
@@ -149,8 +184,8 @@ const Addtailor = () => {
             />
         </View>
 
-        <TouchableOpacity style={styles.buttonstyle} onpress={ _onhandlesubmit() }>
-            <Text style={{fontSize:24,fontFamily:'Ubuntu-Bold',color:'#CAD2C5'}}> Submit </Text>
+        <TouchableOpacity style={styles.buttonstyle} onPress={ () => {_onhandlesubmit()}}>
+            <Text style={{fontSize:24,fontFamily:'Ubuntu-Bold',color:'white'}}> Submit </Text>
         </TouchableOpacity>
 
       </View>
@@ -163,11 +198,11 @@ const Addtailor = () => {
 const styles = StyleSheet.create({
     screen:{
         flex:1,
-        backgroundColor:'#84A98C'
+        backgroundColor:'#c0ccc3'
     },
     titlestyle:{
       color:"#2F3E46",
-      fontSize:20,
+      fontSize:14,
       fontFamily:'Roboto-Bold',
 
     },
