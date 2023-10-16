@@ -47,26 +47,21 @@ const Invoice = () => {
 
     const invoicelist = useSelector(state => state.Invoicedata);
     
-    
-
     const Tailordetail = useSelector(state => state.Tailordata);
 
-    
     const Tailorname = Tailordetail.map((item) => ({ name : item.fullname , value:item.tid }));
+
+
 
     const _onhandlepress = (value) => {
       
-      
       const Typeindex = Tailordetail.findIndex((item) => item.tid == value );
       
-
       if(Typeindex!==-1){
         setclothetypes( Tailordetail[Typeindex].clothetype)
       }
       setisFocus(true);
 
-      
-  
     }
 
     
@@ -77,8 +72,6 @@ const Invoice = () => {
       }else{
         setincludeitem([...includeitem , type])
       }
-      
-      
       
     }
    
