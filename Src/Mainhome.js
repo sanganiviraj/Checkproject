@@ -47,11 +47,13 @@ const Mainhome = ({navigation}) => {
           console.log(item.customfit)
 
           return(
+            <TouchableOpacity onPress={() => {navigation.navigate('invoice', { updateitem : item })}}>
             <View style={styles.cutomerbox} key={item.invoiceid}>
               <Text style={styles.titles}> Name : <Text style={styles.titlesdata}> {item.customername} </Text> </Text> 
               <Text style={styles.titles}> tailor : <Text style={styles.titlesdata}> {item.value} </Text> </Text>
               <Text style={styles.titles}> Types : <Text style={styles.titlesdata}> {item.cutomfits} </Text> </Text>
             </View>  
+            </TouchableOpacity>
           )
         }}
 

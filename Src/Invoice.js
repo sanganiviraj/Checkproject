@@ -8,21 +8,23 @@ import Iconicons from 'react-native-vector-icons/Ionicons'
 import { Dropdown } from 'react-native-element-dropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { SelectList } from 'react-native-dropdown-select-list'
-import DropDownPicker from 'react-native-dropdown-picker';
 import { Invoice_item } from './actions';
 
 
 
 
 
-const Invoice = () => {
+const Invoice = ({route}) => {
     const [customername,setcustomername]=useState('');
     const [customernumber,setcustomernumber]=useState('');
+    const updatelist = route.params?.updateitem || '';
+
     const [value,setvalue]=useState(null);
     const [dropid,setdropid]=useState(null);
     const [isFocus,setisFocus]=useState(false);
     const [clothetypes,setclothetypes]= useState([]);
     const [includeitem,setincludeitem]=useState([]);
+    const [defaultselected,setdefaultselected]=useState(null);
     const dispatch = useDispatch();
 
     const[neck,setneck]=useState('');
@@ -47,32 +49,29 @@ const Invoice = () => {
 
     const invoicelist = useSelector(state => state.Invoicedata);
     
+    // console.log('updatelist => ' , updatelist);
+    
+
     const Tailordetail = useSelector(state => state.Tailordata);
 
-    const Tailorname = Tailordetail.map((item) => ({ name : item.fullname , value:item.tid }));
-
-
+    let Tailorname = Tailordetail.map((item) => ({ name : item.fullname , value:item.tid }));
 
     const _onhandlepress = (value) => {
-      
       const Typeindex = Tailordetail.findIndex((item) => item.tid == value );
       
       if(Typeindex!==-1){
         setclothetypes( Tailordetail[Typeindex].clothetype)
       }
       setisFocus(true);
-
     }
 
     
     const _onpressselectitem = (type) => {
-      
       if(includeitem.includes(type)){
         setincludeitem(includeitem.filter((item) => item !== type))
       }else{
         setincludeitem([...includeitem , type])
       }
-      
     }
    
     const _onadditems= ()  => {
@@ -113,14 +112,28 @@ const Invoice = () => {
           back : back
         }
       }
-
-      
-
       dispatch(Invoice_item(customername,customernumber,customfit,value,dropid))
 
     }
 
-    // console.log('includeitem => ' , includeitem.length)
+    useEffect(() => {
+      if(updatelist !== ''){
+        setcustomername(updatelist.customername);
+        setcustomernumber(updatelist.customernumber);
+        
+        console.log('tailordetail => ' ,Tailordetail)
+        console.log('invoicelist => ',invoicelist);
+        console.log('updatelist => ',updatelist);
+        T = Tailordetail.filter((item) => item.tid === updatelist.dropid)
+        console.log('t =>', T)
+        
+        setvalue(updatelist.value)
+
+      }
+      
+    },[])
+
+    console.log("value => ", value)
 
   return (
     <View style={styles.screen}>
@@ -155,14 +168,15 @@ const Invoice = () => {
 
         
         <Dropdown 
-            style={[styles.dropbox,isFocus && {borderColor:'blue'}]}
+            style={[styles.dropbox,isFocus && {borderColor:'blue',borderWidth:1}]}
             placeholderStyle={{fontSize:16,color:'black',marginLeft:10}}
             selectedTextStyle={{fontSize:16,color:'black',marginLeft:10}}
             itemTextStyle={{color:'black'}}
             data={Tailorname}
             maxHeight={300}
             labelField="name"
-            valueField="value"
+            // valueField="value"
+            value={value}
             placeholder={!isFocus ? 'select Tailor' : '...'}
             onChange={(item) => {setvalue(item.name),setdropid(item.value),setisFocus(false), _onhandlepress(item.value)}}
             onFocus={() =>setisFocus(true)}
