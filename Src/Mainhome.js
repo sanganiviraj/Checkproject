@@ -9,12 +9,13 @@ const Mainhome = ({navigation}) => {
   const tailordatas = useSelector((state) => state.Tailordata);
   const invoicelist = useSelector(state => state.Invoicedata);
   console.log("Tailerdata : " , tailordatas);
+  console.log("invoicedata => ", invoicelist)
 
   return (
     <View style={styles.screen}>
       <Text style={styles.title}> All Tailor Details</Text>
 
-      <View style={{height:(windowheight*45)/100}}> 
+      <View style={{height:(windowheight*40)/100}}> 
 
       {tailordatas=='' ? <Text style={{color:"grey",fontSize:14,fontFamily:'Roboto-Bold',marginLeft:20,justifyContent:"center"}}> Record Not Found </Text> :<FlatList 
         data={tailordatas}
@@ -44,14 +45,15 @@ const Mainhome = ({navigation}) => {
         keyExtractor={item => item.invoiceid}
         horizontal
         renderItem={({item}) => {
-          console.log(item.customfit)
-
+          console.log()
+          const type = Object.keys(item.customfit)
+          
           return(
             <TouchableOpacity onPress={() => {navigation.navigate('invoice', { updateitem : item })}}>
             <View style={styles.cutomerbox} key={item.invoiceid}>
               <Text style={styles.titles}> Name : <Text style={styles.titlesdata}> {item.customername} </Text> </Text> 
               <Text style={styles.titles}> tailor : <Text style={styles.titlesdata}> {item.value} </Text> </Text>
-              <Text style={styles.titles}> Types : <Text style={styles.titlesdata}> {item.cutomfits} </Text> </Text>
+              <Text style={styles.titles}> Types : <Text style={styles.titlesdata}> {(Object.keys(item.customfit)).toString()} </Text> </Text>
             </View>  
             </TouchableOpacity>
           )
@@ -64,11 +66,11 @@ const Mainhome = ({navigation}) => {
       <View style={styles.buttonbox}> 
       
         <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('addtailor')}}>
-          <Text style={{color:'white',fontSize:24,fontFamily:'Roboto-Bold'}}> Add Tailor </Text>
+          <Text style={{color:'white',fontSize:24,fontFamily:'Ubuntu-Bold'}}> Add Tailor </Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={[styles.button,{borderTopRightRadius:30,borderBottomRightRadius:30,borderBottomLeftRadius:0,borderTopLeftRadius:0}]} onPress={() => {navigation.navigate('invoice')}}>
-          <Text style={{color:'white',fontSize:24,fontFamily:'Roboto-Bold' }}> Invoice </Text>
+          <Text style={{color:'white',fontSize:24,fontFamily:'Ubuntu-Bold' }}> Invoice </Text>
         </TouchableOpacity>
         
       </View>
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
     },
     title:{
       fontSize:30,
-      fontFamily:'Roboto-Bold',
+      fontFamily:'YoungSerif-Regular',
       color:'black',
       marginTop:15,
       marginLeft:10,

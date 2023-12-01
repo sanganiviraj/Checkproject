@@ -10,11 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { Invoice_item } from './actions';
 
-
-
-
-
-const Invoice = ({route}) => {
+const Invoice = ({route,navigation}) => {
     const [customername,setcustomername]=useState('');
     const [customernumber,setcustomernumber]=useState('');
     const updatelist = route.params?.updateitem || '';
@@ -25,6 +21,7 @@ const Invoice = ({route}) => {
     const [clothetypes,setclothetypes]= useState([]);
     const [includeitem,setincludeitem]=useState([]);
     const [defaultselected,setdefaultselected]=useState(null);
+
     const dispatch = useDispatch();
 
     const[neck,setneck]=useState('');
@@ -49,9 +46,7 @@ const Invoice = ({route}) => {
 
     const invoicelist = useSelector(state => state.Invoicedata);
     
-    // console.log('updatelist => ' , updatelist);
     
-
     const Tailordetail = useSelector(state => state.Tailordata);
 
     let Tailorname = Tailordetail.map((item) => ({ name : item.fullname , value:item.tid }));
@@ -63,8 +58,9 @@ const Invoice = ({route}) => {
         setclothetypes( Tailordetail[Typeindex].clothetype)
       }
       setisFocus(true);
-    }
 
+
+    }
     
     const _onpressselectitem = (type) => {
       if(includeitem.includes(type)){
@@ -114,6 +110,8 @@ const Invoice = ({route}) => {
       }
       dispatch(Invoice_item(customername,customernumber,customfit,value,dropid))
 
+      navigation.goBack('home')
+
     }
 
     useEffect(() => {
@@ -121,19 +119,63 @@ const Invoice = ({route}) => {
         setcustomername(updatelist.customername);
         setcustomernumber(updatelist.customernumber);
         
-        console.log('tailordetail => ' ,Tailordetail)
+        console.log('tailordetail => ' ,Tailordetail);
         console.log('invoicelist => ',invoicelist);
         console.log('updatelist => ',updatelist);
-        T = Tailordetail.filter((item) => item.tid === updatelist.dropid)
-        console.log('t =>', T)
         
-        setvalue(updatelist.value)
+        setdefaultselected(updatelist.value)
+
+        const tindex = Tailordetail.findIndex((item) => item.tid == updatelist.dropid );
+        
+        if(tindex!==-1){
+          setclothetypes( Tailordetail[tindex].clothetype)
+          
+        }
+
+        const d = (Object.keys(updatelist.customfit)).toString()
+
+        includeitem.push(d)
+        
+
+        if(includeitem.includes('pant')){
+          setknee(updatelist.customfit.pant.knee)
+          setcluff(updatelist.customfit.pant.cluff)
+          setcroach(updatelist.customfit.pant.croach)
+          setseat(updatelist.customfit.pant.seat)
+        }
+
+        if(includeitem.includes('shirt')){
+          setneck(updatelist.customfit.shirt.neck)
+          setshoulder(updatelist.customfit.shirt.shoulder)
+          setForearms(updatelist.customfit.shirt.Foreams)
+          setchest(updatelist.customfit.shirt.chest)
+        }
+
+        if(includeitem.includes('kurta')){
+          setkurtachest(updatelist.customfit.pant.knee)
+          setsleeve(updatelist.customfit.pant.sleeve)
+          setlength(updatelist.customfit.pant.length)
+          setpajama(updatelist.customfit.pant.pajama)
+        }
+
+        if(includeitem.includes('suit')){
+          setstomach(updatelist.customfit.suit.stomach)
+          setwaistline(updatelist.customfit.suit.waistline)
+          setinside(updatelist.customfit.suit.inside)
+          setback(updatelist.customfit.suit.back)
+        }
+         
+        
+        
 
       }
-      
+
     },[])
 
-    console.log("value => ", value)
+    console.log("clothetype => ", clothetypes)
+    console.log("includeitem => ", includeitem)
+
+    
 
   return (
     <View style={styles.screen}>
@@ -175,10 +217,10 @@ const Invoice = ({route}) => {
             data={Tailorname}
             maxHeight={300}
             labelField="name"
-            // valueField="value"
-            value={value}
+            valueField="value"
+            value={defaultselected}
             placeholder={!isFocus ? 'select Tailor' : '...'}
-            onChange={(item) => {setvalue(item.name),setdropid(item.value),setisFocus(false), _onhandlepress(item.value)}}
+            onChange={(item) => {setvalue(item.name),setdropid(item.value),setisFocus(false), _onhandlepress(item.value),setdefaultselected(item.name)}}
             onFocus={() =>setisFocus(true)}
             onBlur={() => setisFocus(false)}
         />

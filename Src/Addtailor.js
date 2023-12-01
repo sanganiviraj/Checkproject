@@ -7,7 +7,7 @@ import Iconicons from 'react-native-vector-icons/Ionicons'
 import { useDispatch } from 'react-redux'
 import { Add_Tailerdata, update_Tailordata } from './actions'
 
-const Addtailor = ({route}) => {
+const Addtailor = ({route,navigation}) => {
   const [firstname,setfirstname] = useState('');
   const [secondname,setsecondname] = useState('');
   const [age,setage] = useState('');
@@ -80,6 +80,7 @@ const Addtailor = ({route}) => {
       dispatch(update_Tailordata(tdata.tid,fullname,age,mobilenumber,clothetype));
     }
 
+    navigation.goBack('home')
 
   }
 

@@ -5,9 +5,6 @@ import Onboarding from 'react-native-onboarding-swiper';
 
 
 const Onboardingscreen = ({navigation}) => {
-
-    
-
   return (
     <Onboarding
         onSkip ={() => {navigation.replace('home')}}
