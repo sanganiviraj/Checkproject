@@ -10,8 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@notifee/react-native": "^7.8.0",
     "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-community/cli": "^11.3.8",
+    "@react-native-firebase/app": "^18.7.3",
+    "@react-native-firebase/messaging": "^18.7.3",
     "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.13",
@@ -24,6 +27,7 @@
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-dropdown-select-list": "^2.0.5",
     "react-native-element-dropdown": "^2.10.0",
+    "react-native-geolocation-service": "^5.3.1",
     "react-native-gesture-handler": "^2.13.1",
     "react-native-gtoast": "^0.0.2",
     "react-native-image-picker": "^5.6.0",

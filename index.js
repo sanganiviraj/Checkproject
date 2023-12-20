@@ -2,15 +2,21 @@
  * @format
  */
 
-import {AppRegistry} from 'react-native';
+import {AppRegistry, AppState, BackHandler} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import Mainhome from './Src/Mainhome';
 import Mainnavigation from './Src/Mainnavigation';
-import extra from './Src/extra';
-import extra2 from './Src/extra2';
-import mapview from './Src/Mapexample/mapview';
+import messaging from '@react-native-firebase/messaging';
+import Notificationwithfirebase from './Src/APIexample/Notificationwithfirebase';
+import welcomescreen from './Src/Aichatbot/welcomescreen';
 
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log('Message handled in the background!', remoteMessage);
+  });
 
-AppRegistry.registerComponent(appName, () => mapview);
+  messaging().getInitialNotification(async remoteMessage => {
+    console.log('Message in KILL state mode' , remoteMessage);
+  })
+AppRegistry.registerComponent(appName, () => welcomescreen);
  
