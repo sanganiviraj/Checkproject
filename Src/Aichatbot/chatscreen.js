@@ -6,8 +6,18 @@ import LinearGradient from 'react-native-linear-gradient'
 import { windowwidth } from '../Constant'
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar'
 
+
+
+
 const chatscreen = () => {
   const [message , setmessage] = useState(dummyMessages);
+  const [ recording , setrecording ] =useState(true)
+  const [speaking , setspeaking] = useState(true)
+
+  const _stophandlerecording = () =>{
+    setspeaking(false)
+  }
+
   return (
     <View style={{flex:1}}>
        <ImageBackground
@@ -91,15 +101,35 @@ const chatscreen = () => {
                 </LinearGradient>
 
 
-                <View style={{justifyContent:'center',alignItems:'center'}}>
-
+                <View style={{justifyContent:'center',alignItems:'center',marginTop:20}}>
+                        {recording?(
+                          <TouchableOpacity>
+                          <Image 
+                            style={styles.micimg}
+                            source={{uri:"https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-round-2/254000/97-512.png"}}
+                          />
+                        </TouchableOpacity>
+                        ):(
                         <TouchableOpacity>
                           <Image 
                             style={styles.micimg}
-                            source={require('../assets/images/gif.gif')}
+                            source={{uri:"https://cdn-icons-png.flaticon.com/512/9667/9667808.png"}}
                           />
                         </TouchableOpacity>
-
+                        )}
+                        
+                      {
+                        message.length>0 && (
+                          <TouchableOpacity
+                            style={{height:50,width:80,backgroundColor:"#FAA0A0",alignItems:'center',justifyContent:"center",position:'absolute',bottom:10,left:20,borderRadius:10}}
+                            onPress={() => {
+                              _stophandlerecording()
+                            }}
+                          > 
+                              <Text style={{color:"white",fontSize:14}}> Stop </Text>
+                          </TouchableOpacity>
+                        )
+                      }
                 </View>
               </View>
 
