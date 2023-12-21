@@ -2,7 +2,7 @@ import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react
 import React from 'react'
 import { windowwidth } from '../Constant'
 
-const welcomescreen = () => {
+const Welcomescreen = ({navigation}) => {
   return (
     <View style={{flex:1}}>
       <ImageBackground style={{flex:1}} source={require('../assets/images/ai2.png')}>
@@ -15,7 +15,9 @@ const welcomescreen = () => {
             Make Your word very easily and faster with a Virtualbuddy.....
       </Text>
 
-      <TouchableOpacity style={{width:(windowwidth*90)/100,height:60,alignSelf:'center',marginTop:30,backgroundColor:"#6723F5",borderRadius:10,alignItems:'center',justifyContent:'center'}}>
+      <TouchableOpacity style={{width:(windowwidth*90)/100,height:60,alignSelf:'center',marginTop:30,backgroundColor:"#6723F5",borderRadius:10,alignItems:'center',justifyContent:'center'}}
+        onPress={() => {navigation.replace('homescreen')}}
+      >
         <Text style={{fontSize:20,fontFamily:'Nunito-Bold',color:'white',alignSelf:'center'}}>Get Started
         </Text>
       </TouchableOpacity>
@@ -25,6 +27,6 @@ const welcomescreen = () => {
   )
 }
 
-export default welcomescreen
+export default Welcomescreen
 
 const styles = StyleSheet.create({})
