@@ -3,6 +3,7 @@ import React from 'react'
 import { BlurView } from '@react-native-community/blur'
 import { windowwidth } from '../Constant'
 import LinearGradient from 'react-native-linear-gradient'
+
 // import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const Homescreen = () => {

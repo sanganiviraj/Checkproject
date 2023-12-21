@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View,ImageBackground ,Image, ScrollView, Touchable, TouchableOpacity} from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BlurView } from '@react-native-community/blur'
 import { dummyMessages } from './demodata'
 import LinearGradient from 'react-native-linear-gradient'
+import Voice from '@react-native-community/voice';
 import { windowwidth } from '../Constant'
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar'
 
@@ -11,12 +12,66 @@ import { windowwidth } from '../Constant'
 
 const chatscreen = () => {
   const [message , setmessage] = useState(dummyMessages);
-  const [ recording , setrecording ] =useState(true)
+  const [ recording , setrecording ] =useState(false)
   const [speaking , setspeaking] = useState(true)
+  const [result , setresult ] =useState('');
+
+  const speechStartHandler = () => {
+    console.log("speech start handler")
+  }
+
+  const speechEndHandler = () => {
+    console.log("speech end handler")
+  }
+
+  const speechResultHandler = (e) => {
+    console.log("speech Result handler")
+    const text = e.value[0];
+    setresult(text)
+  }
+
+  const speechErrorHandler = (e) => {
+    console.log("speech Error" , e)
+  }
+
+  const Startrecording = async( ) => {
+    console.log('hi');
+    setrecording(true);
+    try{
+      await Voice.start('en-US'); //english language
+    }
+    catch(er){
+      console.log('error : ' , er);
+    }
+  }
+
+  const stopspeechrecording = async( ) => {
+    try{
+      await Voice.stop();
+      setrecording(false)
+    }
+    catch(er){
+      console.log(er);
+    }
+  }
 
   const _stophandlerecording = () =>{
+    console.log('press!')
     setspeaking(false)
   }
+  
+  useEffect(() => {
+    Voice.onSpeechStart = speechStartHandler;
+    Voice.onSpeechEnd = speechEndHandler;
+    Voice.onSpeechResults = speechResultHandler;
+    Voice.onSpeechError = speechErrorHandler;
+
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners);
+    }
+  },[])
+
+  console.log('Final Result : ' , result)
 
   return (
     <View style={{flex:1}}>
@@ -102,21 +157,24 @@ const chatscreen = () => {
 
 
                 <View style={{justifyContent:'center',alignItems:'center',marginTop:20}}>
-                        {recording?(
-                          <TouchableOpacity>
-                          <Image 
-                            style={styles.micimg}
-                            source={{uri:"https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-round-2/254000/97-512.png"}}
-                          />
-                        </TouchableOpacity>
-                        ):(
-                        <TouchableOpacity>
-                          <Image 
-                            style={styles.micimg}
-                            source={{uri:"https://cdn-icons-png.flaticon.com/512/9667/9667808.png"}}
-                          />
-                        </TouchableOpacity>
-                        )}
+                      {
+                        recording ? (
+                              <TouchableOpacity onPress={() => {stopspeechrecording()}}>
+                                <Image 
+                                  style={styles.micimg}
+                                  source={{uri:"https://cdn-icons-png.flaticon.com/512/9667/9667808.png"}}
+                                />
+                            </TouchableOpacity>
+                        ):
+                        (
+                            <TouchableOpacity onPress={() => {Startrecording()}}>
+                              <Image 
+                                style={styles.micimg}
+                                source={{uri:"https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-round-2/254000/97-512.png"}}
+                              />
+                            </TouchableOpacity>
+                        )
+                      }
                         
                       {
                         message.length>0 && (
