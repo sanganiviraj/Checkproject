@@ -13,6 +13,7 @@ import welcomescreen from './Src/Aichatbot/welcomescreen';
 import Allscreen from './Src/Aichatbot/Allscreen';
 import Homescreen from './Src/Aichatbot/Homescreen';
 import chatscreen from './Src/Aichatbot/chatscreen';
+import Welcomescreen from './Src/Aichatbot/welcomescreen';
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);

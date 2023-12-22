@@ -5,6 +5,8 @@ import { dummyMessages } from './demodata'
 import LinearGradient from 'react-native-linear-gradient'
 import Voice from '@react-native-community/voice';
 import { windowwidth } from '../Constant'
+import { apicall } from './openai'
+
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar'
 
 
@@ -57,7 +59,8 @@ const chatscreen = () => {
 
   const _stophandlerecording = () =>{
     console.log('press!')
-    setspeaking(false)
+    // setspeaking(false)
+    apicall('hi');
   }
   
   useEffect(() => {
@@ -70,6 +73,12 @@ const chatscreen = () => {
       Voice.destroy().then(Voice.removeAllListeners);
     }
   },[])
+
+
+  // useEffect(() => {
+  //   apicall('hi , how are you');
+  // },[])
+  
 
   console.log('Final Result : ' , result)
 
