@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View,ImageBackground ,Image, ScrollView, Touchable, TouchableOpacity} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BlurView } from '@react-native-community/blur'
-import { dummyMessages } from './demodata'
+import { apiKey, dummyMessages } from './demodata'
 import LinearGradient from 'react-native-linear-gradient'
 import Voice from '@react-native-community/voice';
 import { windowwidth } from '../Constant'
-import { apicall } from './openai'
+import { Officialfunction, apicall, getTranslatedText } from './openai'
+import axios from 'axios'
 
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar'
 
@@ -17,6 +18,7 @@ const chatscreen = () => {
   const [ recording , setrecording ] =useState(false)
   const [speaking , setspeaking] = useState(true)
   const [result , setresult ] =useState('');
+  const [response, setResponse] = useState('')
 
   const speechStartHandler = () => {
     console.log("speech start handler")
@@ -60,7 +62,9 @@ const chatscreen = () => {
   const _stophandlerecording = () =>{
     console.log('press!')
     // setspeaking(false)
-    apicall('hi');
+    // apicall('hi');
+    // getTranslatedText('hi')
+    Officialfunction()
   }
   
   useEffect(() => {
@@ -78,6 +82,9 @@ const chatscreen = () => {
   // useEffect(() => {
   //   apicall('hi , how are you');
   // },[])
+  
+
+ 
   
 
   console.log('Final Result : ' , result)
