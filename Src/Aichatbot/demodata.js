@@ -1,4 +1,8 @@
+// <<<<<<< HEAD
 export const apiKey = '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';
+// =======
+// export const apiKey = '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';
+// >>>>>>> bfcb3ea00f983152838f668f9bbe074541e34358
 // in some cases your api key maybe already expired
 // try to use a new account to create an api key
 // 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
