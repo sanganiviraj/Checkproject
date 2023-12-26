@@ -35,17 +35,46 @@ export const apicall = async(prompt , messages ) => {
 
 
 
-const openai = new OpenAI({
-    apiKey: process.env[apiKey]
-})  
+// const openai = new OpenAI({
+//     apiKey: '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'
+// })  
 
-export const Officialfunction = async() => {
-    const chatcompletion = await openai.chat.completions.create({
-        messages: [{role:'user' , content:'say this is a test'}],
-        model:'gpt-3.5-turbo'
-    });
-    console.log(chatcompletion)
-}
+// export const Officialfunction = async() => {
+//     try{
+//         const chatcompletion = await openai.chat.completions.create({
+//             messages: [{role:'user' , content:'say this is a test'}],
+//             model:'gpt-3.5-turbo',
+//             max_tokens: 150
+//         });
+//         console.log(chatcompletion)
+//     }catch(e){
+//         console.log(e)
+//     }
+    
+// }
+
+
+export const officialFunction = async () => {
+    try {
+        const response = await axios.post(
+            'https://api.openai.com/v1/engines/gpt-3.5-turbo/completions',
+            {
+                prompt: 'say this is a test',
+                max_tokens: 150
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                }
+            }
+        );
+
+        console.log(response.data);
+    } catch (e) {
+        console.log(e);
+    }
+};
 
 // export const getTranslatedText = (params) => {
 //     console.log('params', params);

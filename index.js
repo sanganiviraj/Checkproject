@@ -14,6 +14,7 @@ import Allscreen from './Src/Aichatbot/Allscreen';
 import Homescreen from './Src/Aichatbot/Homescreen';
 import chatscreen from './Src/Aichatbot/chatscreen';
 import Welcomescreen from './Src/Aichatbot/welcomescreen';
+import otpverifyexample from './Src/FirebaseExample/otpverifyexample';
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
@@ -22,5 +23,5 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   messaging().getInitialNotification(async remoteMessage => {
     console.log('Message in KILL state mode' , remoteMessage);
   })
-AppRegistry.registerComponent(appName, () => chatscreen);
+AppRegistry.registerComponent(appName, () => otpverifyexample );
  

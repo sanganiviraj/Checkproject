@@ -5,8 +5,8 @@ import { apiKey, dummyMessages } from './demodata'
 import LinearGradient from 'react-native-linear-gradient'
 import Voice from '@react-native-community/voice';
 import { windowwidth } from '../Constant'
-import { Officialfunction, apicall, getTranslatedText } from './openai'
 import axios from 'axios'
+import { officialFunction } from './openai'
 
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar'
 
@@ -64,7 +64,7 @@ const chatscreen = () => {
     // setspeaking(false)
     // apicall('hi');
     // getTranslatedText('hi')
-    Officialfunction()
+    officialFunction()
   }
   
   useEffect(() => {

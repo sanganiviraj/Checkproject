@@ -1,5 +1,5 @@
 // <<<<<<< HEAD
-export const apiKey = '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';
+export const apiKey = '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';
 // =======
 // export const apiKey = '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';
 // >>>>>>> bfcb3ea00f983152838f668f9bbe074541e34358
